@@ -1,4 +1,5 @@
 import 'package:e_shop_app/firebase/auth/firebase_controller.dart';
+import 'package:e_shop_app/view/auth/view/sign_up_screen.dart';
 import 'package:e_shop_app/view/home/view/home_screen.dart';
 import 'package:e_shop_app/widget/text_field_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,7 +56,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: const Text('Sign In'),
                   ),
                   CupertinoButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const SignUpScreen());
+                    },
                     color: Colors.blue,
                     child: const Text('Sign Up'),
                   )

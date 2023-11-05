@@ -8,6 +8,12 @@ class FirebaseController {
     return userData;
   }
 
-  Future logOut() async {}
-  Future createUser() async {}
+  Future logOut() async {
+    return await auth.signOut();
+  }
+
+  Future createUser(String? email, String? password) async {
+    return await auth.createUserWithEmailAndPassword(
+        email: email!, password: password!);
+  }
 }

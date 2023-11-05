@@ -35,7 +35,7 @@ class TextFieldWidget extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: Colors.grey),
-        child: TextField(
+        child: TextFormField(
           onTap: onTap,
           keyboardType: keyboardType,
           controller: controller,
@@ -57,6 +57,12 @@ class TextFieldWidget extends StatelessWidget {
               border: InputBorder.none,
               hintText: hindText ?? 'Enter sometext'),
           onChanged: onChanged,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
         ),
       ),
     );
