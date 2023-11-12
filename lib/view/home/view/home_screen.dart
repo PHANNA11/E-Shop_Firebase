@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/view/auth/view/sign_in_screen.dart';
+import 'package:e_shop_app/view/home/model/product_model.dart';
+import 'package:e_shop_app/view/home/widget/product_cart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../firebase/auth/firebase_controller.dart';
@@ -55,9 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   var pro =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                  return ListTile(
-                    leading: Image(image: NetworkImage(pro['pro_image'])),
-                    title: Text(pro['name']),
+                  return ProductCart(
+                    pro: ProductModel.fromFireBase(pro),
                   );
                 },
               );
