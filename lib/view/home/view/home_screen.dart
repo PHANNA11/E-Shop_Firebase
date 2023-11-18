@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/view/auth/view/sign_in_screen.dart';
 import 'package:e_shop_app/view/home/model/product_model.dart';
 import 'package:e_shop_app/view/home/widget/product_cart.dart';
+import 'package:e_shop_app/view/shop/view/home_shop.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../firebase/auth/firebase_controller.dart';
 
@@ -21,18 +23,52 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: Drawer(
-            child: SafeArea(
-                child: ListTile(
-          onTap: () async {
-            await FirebaseController().logOut().then((value) =>
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignInScreen()),
-                    (route) => false));
-          },
-          title: const Text('Log Out'),
-        ))),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Card(
+                  elevation: 0,
+                  child: ListTile(
+                    leading: const CircleAvatar(
+                        maxRadius: 22,
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            AssetImage('assets/icons/software-engineer.png')),
+                    onTap: () async {
+                      await FirebaseController().logOut().then((value) =>
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignInScreen()),
+                              (route) => false));
+                    },
+                    title: const Text('Log Out'),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18,
+                    ),
+                  ),
+                ),
+                Card(
+                  elevation: 0,
+                  child: ListTile(
+                    onTap: () => Get.to(() => const HomeShop()),
+                    leading: const CircleAvatar(
+                      maxRadius: 22,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage('assets/icons/store.png'),
+                    ),
+                    title: const Text('Shop'),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
         appBar: AppBar(
           title: const Text('Home Screen'),
         ),
