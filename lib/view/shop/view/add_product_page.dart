@@ -1,8 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:e_shop_app/firebase/module/firebase_storage.dart';
 import 'package:e_shop_app/firebase/module/productFirebase.dart';
 import 'package:e_shop_app/view/home/model/product_model.dart';
+import 'package:e_shop_app/widget/loading.dart';
 import 'package:e_shop_app/widget/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -110,6 +112,9 @@ class _AddProductPageState extends State<AddProductPage> {
                       GestureDetector(
                         onTap: () async {
                           await FireBaseStorageController().openGallary() ?? '';
+                          setState(() {
+                            linkImageController.text = selectImage.value;
+                          });
                         },
                         child: Container(
                           margin: const EdgeInsets.all(8),
@@ -161,7 +166,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 ),
               ),
             ),
-            FireBaseStorageController().selectImage.isEmpty
+            linkImageController.text.isEmpty
                 ? const SizedBox()
                 : Image(
                     height: 200,
@@ -173,6 +178,7 @@ class _AddProductPageState extends State<AddProductPage> {
       ),
       bottomSheet: GestureDetector(
         onTap: () async {
+          openLoading();
           await ProductFireBase().addProduct(
             ProductModel(
               id: DateTime.now().microsecondsSinceEpoch,
@@ -185,6 +191,7 @@ class _AddProductPageState extends State<AddProductPage> {
               image: linkImageController.text,
             ),
           );
+          closeLoading();
         },
         child: Container(
           margin: const EdgeInsets.all(8),

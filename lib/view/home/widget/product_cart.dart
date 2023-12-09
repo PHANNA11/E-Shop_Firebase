@@ -68,20 +68,22 @@ class ProductCart extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            top: 5,
-            right: 0,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(pro!.discountLabel.toString()),
-              ),
-            ),
-          )
+          pro!.discountLabel!.isEmpty
+              ? const SizedBox()
+              : Positioned(
+                  top: 5,
+                  right: 0,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(pro!.discountLabel.toString()),
+                    ),
+                  ),
+                )
         ],
       ),
     );
