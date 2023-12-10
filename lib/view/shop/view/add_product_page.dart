@@ -11,8 +11,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProductPage extends StatefulWidget {
-  const AddProductPage({super.key});
-
+  AddProductPage({super.key, this.productModel, this.docId});
+  ProductModel? productModel;
+  String? docId;
   @override
   State<AddProductPage> createState() => _AddProductPageState();
 }
@@ -26,6 +27,33 @@ class _AddProductPageState extends State<AddProductPage> {
   final linkImageController = TextEditingController();
   final discountLabelController = TextEditingController();
   File? fileImage;
+  initFuntionData() async {
+    setState(() {
+      nameController.text = widget.productModel!.name!;
+      priceController.text = widget.productModel!.price!.toString();
+      detailController.text = widget.productModel!.discription!;
+      discountController.text = widget.productModel!.discount!.toString();
+      discountLabelController.text = widget.productModel!.discountLabel!;
+      sellPriceController.text = widget.productModel!.sellPrice!.toString();
+      linkImageController.text = widget.productModel!.image!.toString();
+    });
+  }
+
+  clearFuntionData() {
+    setState(() {
+      nameController.text = priceController.text = detailController.text =
+          discountController.text = discountLabelController.text =
+              sellPriceController.text = linkImageController.text = '';
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.productModel == null ? clearFuntionData() : initFuntionData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,19 +207,39 @@ class _AddProductPageState extends State<AddProductPage> {
       bottomSheet: GestureDetector(
         onTap: () async {
           openLoading();
-          await ProductFireBase().addProduct(
-            ProductModel(
-              id: DateTime.now().microsecondsSinceEpoch,
-              name: nameController.text,
-              price: double.parse(priceController.text),
-              discription: detailController.text,
-              discount: double.parse(discountController.text),
-              discountLabel: discountLabelController.text,
-              sellPrice: double.parse(sellPriceController.text),
-              image: linkImageController.text,
-            ),
-          );
+
+          if (widget.productModel == null) {
+            await ProductFireBase().addProduct(
+              ProductModel(
+                id: DateTime.now().microsecondsSinceEpoch,
+                name: nameController.text,
+                price: double.parse(priceController.text),
+                discription: detailController.text,
+                discount: double.parse(discountController.text),
+                discountLabel: discountLabelController.text,
+                sellPrice: double.parse(sellPriceController.text),
+                image: linkImageController.text,
+              ),
+            );
+          } else {
+            await FireBaseStorageController()
+                .deleteImage(imageUrl: widget.productModel!.image!);
+            await ProductFireBase().updateProduct(
+              docId: widget.docId!,
+              product: ProductModel(
+                id: widget.productModel!.id,
+                name: nameController.text,
+                price: double.parse(priceController.text),
+                discription: detailController.text,
+                discount: double.parse(discountController.text),
+                discountLabel: discountLabelController.text,
+                sellPrice: double.parse(sellPriceController.text),
+                image: linkImageController.text,
+              ),
+            );
+          }
           closeLoading();
+          Get.back();
         },
         child: Container(
           margin: const EdgeInsets.all(8),

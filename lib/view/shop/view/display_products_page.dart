@@ -45,6 +45,7 @@ class _DisplayProductPageState extends State<DisplayProductPage> {
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
                   return ProductCart(
                     pro: ProductModel.fromFireBase(pro),
+                    docId: snapshot.data!.docs[index].id,
                   );
                 },
               );

@@ -37,7 +37,7 @@ class _HomeShopState extends State<HomeShop> {
       child: GestureDetector(
         onTap: () => {
           if (data['page'] == 'add')
-            {Get.to(() => const AddProductPage())}
+            {Get.to(() => AddProductPage())}
           else if (data['page'] == 'display')
             {Get.to(() => const DisplayProductPage())}
           else

@@ -41,6 +41,10 @@ class FireBaseStorageController {
     });
   }
 
+  Future<void> deleteImage({required String imageUrl}) async {
+    await FirebaseStorage.instance.refFromURL(imageUrl).delete();
+  }
+
   // =====  Camera Image =====
 
   openCamera() async {
